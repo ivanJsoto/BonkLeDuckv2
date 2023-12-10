@@ -79,6 +79,8 @@ public class GameClient {
             mainPanel.add(button);
 
             button.setBounds(testArr[0] + 220, testArr[1] + 220, 80, 80);
+            isDuckButtonAdded = true;
+
             button.addActionListener(e -> {
                 Container parent = button.getParent();
                 parent.remove(button);
@@ -86,12 +88,13 @@ public class GameClient {
                 parent.repaint();
                 PlayBonk();
                 updateScore(ScoreLabel);
-
                 isDuckButtonAdded = false;
+
+
             });
-            isDuckButtonAdded = true;
+
         }
-        }
+    }
 
 
     private static int[] newCoords(Socket socket) throws IOException { //todo calls new coordinates from the server... will probably apply to both clients-
@@ -127,6 +130,7 @@ public class GameClient {
         } catch(Exception ex) {
             System.out.println("Error with playing sound.");
             ex.printStackTrace();
+
         }
     }
 
@@ -176,8 +180,6 @@ public class GameClient {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("Whatever");
-
             }
         };
         mainFrame.addMouseMotionListener(new MouseMotionListener() {

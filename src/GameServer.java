@@ -52,16 +52,21 @@ public class GameServer {
                     String clientMessage = in.readUTF();
 
                     // Check if the client is requesting new coordinates
-                    if (clientMessage.equals("New Coordinates")) {
-                        // Generate new coordinates for the duck
-                        int[] newDuckCoordinates = updateRandNum();
 
-                        // Send the new coordinates to the client
-                        out.writeInt(newDuckCoordinates[0]);
-                        out.writeInt(newDuckCoordinates[1]);
+                        if (clientMessage.equals("New Coordinates")) {
+                            // Generate new coordinates for the duck
+                            int[] newDuckCoordinates = updateRandNum();
 
+                            // Send the new coordinates to the client
+                            out.writeInt(newDuckCoordinates[0]);
+                            out.writeInt(newDuckCoordinates[1]);
+
+                            clientScore++;
+                            System.out.println(clientScore);
+                        }
+                    if (winningScore == clientScore){
+                        System.out.println("YAYYYY");
                     }
-
                     // Other game logic handling could go here based on client actions
                 }
             } catch (IOException e) {
