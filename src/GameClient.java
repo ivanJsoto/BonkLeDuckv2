@@ -20,6 +20,8 @@ public class GameClient {
     public static int Score = 0;
     public static JLabel ScoreLabel;
 
+    public static JButton QButton;
+
     private static void createGameWindow(JFrame mainFrame) {
         mainFrame.setTitle("BONK LE DUCK");
         mainFrame.setSize(800, 800);
@@ -61,6 +63,40 @@ public class GameClient {
     public static void updateScore(JLabel ScoreLabel) {
         Score += 1;
         ScoreLabel.setText(String.valueOf(Score));
+
+        if (Score == 30) {
+            AgainButton((JPanel) ScoreLabel.getParent());
+            QuitButton((JPanel) ScoreLabel.getParent());
+
+        }
+    }
+    public static void QuitButton(JPanel mainPanel){
+        JButton Qbutton = new JButton("Quit");
+        Qbutton.addActionListener(e -> {
+            Container parent = Qbutton.getParent();
+            Score = 0;
+            ScoreLabel.setText(String.valueOf(Score)); // Reset the score label
+            parent.remove(Qbutton);
+            parent.revalidate();
+            parent.repaint();
+            PlayBonk();
+        });
+        mainPanel.add(Qbutton);
+        Qbutton.setBounds(620, 700, 100, 50);
+    }
+    private static void AgainButton(JPanel mainPanel) {
+        JButton Pbutton = new JButton("Play Again");
+        Pbutton.addActionListener(e -> {
+            Container parent = Pbutton.getParent();
+            Score = 0;
+            ScoreLabel.setText(String.valueOf(Score)); // Reset the score label
+            parent.remove(Pbutton);
+            parent.revalidate();
+            parent.repaint();
+            PlayBonk();
+        });
+        mainPanel.add(Pbutton);
+        Pbutton.setBounds(620, 630, 100, 50);
     }
 
     private static void ducky( JPanel mainPanel,Socket socket) throws IOException {
@@ -89,8 +125,6 @@ public class GameClient {
                 PlayBonk();
                 updateScore(ScoreLabel);
                 isDuckButtonAdded = false;
-
-
             });
 
         }
@@ -109,6 +143,7 @@ public class GameClient {
 
         return newDuckCoordinates;
     }
+
     public static void PlayMusic() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Sounds/Music.wav").getAbsoluteFile());
@@ -123,7 +158,7 @@ public class GameClient {
     }
     public static void PlayBonk() {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Sounds/BONK.wav").getAbsoluteFile());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Sounds/bonk (2).wav").getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
@@ -192,6 +227,7 @@ public class GameClient {
             }
         });
         PlayMusic();
+
 
         scoreBoard(mainPanel);
         mainFrame.add(mainPanel);

@@ -4,6 +4,8 @@ import java.net.Socket;
 import java.util.Random;
 
 public class GameServer {
+    public static int clientScore = 0;
+    public static int winningScore = 31;
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(1127);
