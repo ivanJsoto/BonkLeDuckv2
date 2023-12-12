@@ -20,8 +20,6 @@ public class GameClient{
     public static int Score = 0;
     public static JLabel ScoreLabel;
     public static JButton DuckyButton;
-
-
     public static JButton QButton;
     public static JButton Pbutton;
 
