@@ -14,13 +14,17 @@ import java.net.Socket;
 
 import static java.awt.Toolkit.getDefaultToolkit;
 
-public class GameClient {
+public class GameClient{
     private static Image grassImage;
     private static boolean isDuckButtonAdded = false;
     public static int Score = 0;
     public static JLabel ScoreLabel;
+    public static JButton DuckyButton;
+
 
     public static JButton QButton;
+    public static JButton Pbutton;
+
 
     private static void createGameWindow(JFrame mainFrame) {
         mainFrame.setTitle("BONK LE DUCK");
@@ -60,40 +64,61 @@ public class GameClient {
         g.fillOval(circleX, circleY, circleDiameter, circleDiameter);
 
     }
-    public static void updateScore(JLabel ScoreLabel) {
+    public static void updateScore(JLabel ScoreLabel ) {
         Score += 1;
         ScoreLabel.setText(String.valueOf(Score));
 
+
         if (Score == 30) {
+
             AgainButton((JPanel) ScoreLabel.getParent());
             QuitButton((JPanel) ScoreLabel.getParent());
+            Container parentDucky = DuckyButton.getParent();
+            parentDucky.remove(DuckyButton);
+            parentDucky.revalidate();
+            parentDucky.repaint();
+
 
         }
     }
     public static void QuitButton(JPanel mainPanel){
-        JButton Qbutton = new JButton("Quit");
-        Qbutton.addActionListener(e -> {
-            Container parent = Qbutton.getParent();
+        QButton = new JButton("Quit");
+        QButton.addActionListener(e -> {
             Score = 0;
-            ScoreLabel.setText(String.valueOf(Score)); // Reset the score label
-            parent.remove(Qbutton);
-            parent.revalidate();
-            parent.repaint();
+            Container parent1 = QButton.getParent();
+            parent1.remove(QButton);
+            parent1.revalidate();
+            parent1.repaint();
+
+            Container parent2 = Pbutton.getParent();
+            parent2.remove(Pbutton);
+            parent2.revalidate();
+            parent2.repaint();
+
+
             PlayBonk();
+            System.exit(0);
+
         });
-        mainPanel.add(Qbutton);
-        Qbutton.setBounds(620, 700, 100, 50);
+        mainPanel.add(QButton);
+        QButton.setBounds(620, 700, 100, 50);
     }
     private static void AgainButton(JPanel mainPanel) {
-        JButton Pbutton = new JButton("Play Again");
+        Pbutton = new JButton("Play Again");
         Pbutton.addActionListener(e -> {
-            Container parent = Pbutton.getParent();
             Score = 0;
             ScoreLabel.setText(String.valueOf(Score)); // Reset the score label
-            parent.remove(Pbutton);
-            parent.revalidate();
-            parent.repaint();
+            Container parent2 = Pbutton.getParent();
+            parent2.remove(Pbutton);
+            parent2.revalidate();
+            parent2.repaint();
             PlayBonk();
+
+            Container parent1 = QButton.getParent();
+            parent1.remove(QButton);
+            parent1.revalidate();
+            parent1.repaint();
+            mainPanel.add(DuckyButton);
         });
         mainPanel.add(Pbutton);
         Pbutton.setBounds(620, 630, 100, 50);
@@ -103,23 +128,23 @@ public class GameClient {
         if (!isDuckButtonAdded) {
             ImageIcon icon = new ImageIcon("IMAGES/DUCK.png");
             Image image = icon.getImage(); // transform it
-            Image newImg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
+            Image newImg = image.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
             icon = new ImageIcon(newImg);
-            JButton button = new JButton(icon);
+            DuckyButton = new JButton(icon);
 
-            button.setBackground(new Color(10, 180, 255));
-            button.setBorderPainted(false);
+            DuckyButton.setBackground(new Color(10, 180, 255));
+            DuckyButton.setBorderPainted(false);
             int[] testArr;
             testArr = newCoords(socket);
 
-            mainPanel.add(button);
+            mainPanel.add(DuckyButton);
 
-            button.setBounds(testArr[0] + 220, testArr[1] + 220, 80, 80);
+            DuckyButton.setBounds(testArr[0] + 220, testArr[1] + 220, 80, 80);
             isDuckButtonAdded = true;
 
-            button.addActionListener(e -> {
-                Container parent = button.getParent();
-                parent.remove(button);
+            DuckyButton.addActionListener(e -> {
+                Container parent = DuckyButton.getParent();
+                parent.remove(DuckyButton);
                 parent.revalidate();
                 parent.repaint();
                 PlayBonk();
@@ -170,16 +195,9 @@ public class GameClient {
     }
 
     public static void main(String[] args) throws IOException {
-
-        //todo menustuff.....
-        JFrame menuFrame = new JFrame();
-        JMenuBar menuBar = new JMenuBar();
-        JMenu singlePlayer = new JMenu("Play SinglePlayer");
-        JMenu multiPlayer = new JMenu("Play MultiPlayer");
-
         Socket socket = null;
         try {
-            socket = new Socket("localhost", 1127);
+            socket = new Socket("192.168.1.19", 1127);
             System.out.println("Connected to server.");
 
         } catch (IOException e) {
@@ -217,6 +235,9 @@ public class GameClient {
                 }
             }
         };
+
+        
+
         mainFrame.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseMoved(MouseEvent e) {
