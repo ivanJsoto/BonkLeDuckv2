@@ -158,7 +158,7 @@ public class GameClient {
     }
     public static void PlayBonk() {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Sounds/bonk (2).wav").getAbsoluteFile());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Sounds/BonkSmooth.wav").getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
