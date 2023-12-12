@@ -193,9 +193,12 @@ public class GameClient{
     }
 
     public static void main(String[] args) throws IOException {
+        String serverIp = JOptionPane.showInputDialog(null, "Enter Server IP: ");
+        String portStr = JOptionPane.showInputDialog(null, "Enter Port Number: ");
+        int serverPort = Integer.parseInt(portStr);
         Socket socket = null;
         try {
-            socket = new Socket("192.168.1.19", 1127);
+            socket = new Socket(serverIp, serverPort);
             System.out.println("Connected to server.");
 
         } catch (IOException e) {

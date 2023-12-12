@@ -31,9 +31,11 @@ public class GameServer {
 
     public static void main(String[] args) {
         GameServer gameServer = new GameServer();
+        String portStr = JOptionPane.showInputDialog(null, "Enter Host Port Number: ");
+        int serverPort = Integer.parseInt(portStr);
 
         try {
-            ServerSocket serverSocket = new ServerSocket(1127);
+            ServerSocket serverSocket = new ServerSocket(serverPort);
             System.out.println("Server started. Waiting for clients...");
 
             int currentPlayer = 1; // Initialize player number
